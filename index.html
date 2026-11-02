@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Super Admin · Sprint 05</title>
+  <title>Super Admin · Sprint 4</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -19,9 +19,7 @@
       --glow-band: rgba(15, 122, 102, 0.14);
       --status-product: #0f7a66;
       --status-review: #b35a00;
-      --status-progress: #1f5fbf;
-      --status-intake: #6b4f9a;
-      --status-backlog: #5a6670;
+      --status-done: #2f6b3a;
     }
 
     * { box-sizing: border-box; }
@@ -59,13 +57,11 @@
       margin: 0 0 0.65rem;
     }
 
-    .brand span {
-      color: var(--accent-deep);
-    }
+    .brand span { color: var(--accent-deep); }
 
     .lede {
       margin: 0;
-      max-width: 38rem;
+      max-width: 40rem;
       color: var(--ink-soft);
       font-size: 1.05rem;
       line-height: 1.5;
@@ -153,9 +149,7 @@
 
     .ticket[data-status="Product Review"] { --tone: var(--status-product); }
     .ticket[data-status="In Review"] { --tone: var(--status-review); }
-    .ticket[data-status="In Progress"] { --tone: var(--status-progress); }
-    .ticket[data-status="Intake"] { --tone: var(--status-intake); }
-    .ticket[data-status="Backlog"] { --tone: var(--status-backlog); }
+    .ticket[data-status="Done"] { --tone: var(--status-done); }
 
     .id {
       font-weight: 600;
@@ -231,17 +225,9 @@
     @media (max-width: 700px) {
       .ticket {
         grid-template-columns: 1fr auto;
-        grid-template-areas:
-          "id status"
-          "body body"
-          "open open";
       }
-      .id { grid-area: id; }
-      .status { grid-area: status; }
-      .body { grid-area: body; }
       .open {
-        grid-area: open;
-        grid-column: auto;
+        grid-column: 1 / -1;
         grid-row: auto;
         justify-self: start;
         margin-top: 0.25rem;
@@ -254,14 +240,14 @@
 <body>
   <div class="page">
     <header>
-      <h1 class="brand">Super Admin <span>· Sprint 05</span></h1>
+      <h1 class="brand">Super Admin <span>· Sprint 4</span></h1>
       <p class="lede">
-        A quick-read board of the Super Admin tickets that look most relevant to the current sprint — status, goal, and a direct link into Linear.
+        Current Super Admin work on Sprint 4 — what’s in flight, what’s in review, and what’s already Done. Click any row to open the Linear ticket.
       </p>
       <div class="meta">
-        <div><strong>7</strong> tickets</div>
+        <div><strong>6</strong> tickets</div>
+        <div>3 Product Review · 1 In Review · 2 Done</div>
         <div>Updated <strong>Nov 2, 2026</strong></div>
-        <div>Click any row to open the issue</div>
       </div>
     </header>
 
@@ -269,12 +255,10 @@
       <button type="button" data-filter="all" aria-pressed="true">All</button>
       <button type="button" data-filter="Product Review" aria-pressed="false">Product Review</button>
       <button type="button" data-filter="In Review" aria-pressed="false">In Review</button>
-      <button type="button" data-filter="In Progress" aria-pressed="false">In Progress</button>
-      <button type="button" data-filter="Intake" aria-pressed="false">Intake</button>
-      <button type="button" data-filter="Backlog" aria-pressed="false">Backlog</button>
+      <button type="button" data-filter="Done" aria-pressed="false">Done</button>
     </div>
 
-    <section class="board" aria-label="Sprint-relevant Super Admin tickets">
+    <section class="board" aria-label="Current Sprint 4 Super Admin tickets">
       <a class="ticket" style="--i:0" data-status="Product Review" href="https://linear.app/legends-of-learning/issue/LEG-5300" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5300</div>
         <div class="body">
@@ -295,7 +279,17 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:2" data-status="In Review" href="https://linear.app/legends-of-learning/issue/LEG-5296" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:2" data-status="Product Review" href="https://linear.app/legends-of-learning/issue/LEG-5299" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5299</div>
+        <div class="body">
+          <h2 class="title">Open all Super Admin support settings as complete pages</h2>
+          <p class="goal">Open support records as full pages (student, teacher, user, school, district, parent, class, and related forms) instead of cramped tabbed drawers.</p>
+        </div>
+        <div class="status">Product Review</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:3" data-status="In Review" href="https://linear.app/legends-of-learning/issue/LEG-5296" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5296</div>
         <div class="body">
           <h2 class="title">Set student lists to the basic player in Super Admin</h2>
@@ -305,49 +299,29 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:3" data-status="In Progress" href="https://linear.app/legends-of-learning/issue/LEG-5141" target="_blank" rel="noopener noreferrer">
-        <div class="id">LEG-5141</div>
+      <a class="ticket" style="--i:4" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5052" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5052</div>
         <div class="body">
-          <h2 class="title">Create RFP demo districts and sample data from Super Admin</h2>
-          <p class="goal">Make RFP demo setup reusable: create isolated demo districts, return a credentials PDF, then seed sample data asynchronously.</p>
+          <h2 class="title">Choose Awakening or the basic player in Super Admin</h2>
+          <p class="goal">Let support set Assignments in Awakening to On, Off, or Inherit for an account, school, or student — Off routes to the basic player.</p>
         </div>
-        <div class="status">In Progress</div>
+        <div class="status">Done</div>
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:4" data-status="Intake" href="https://linear.app/legends-of-learning/issue/LEG-5242" target="_blank" rel="noopener noreferrer">
-        <div class="id">LEG-5242</div>
+      <a class="ticket" style="--i:5" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-2714" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-2714</div>
         <div class="body">
-          <h2 class="title">Let staff unlink a user from every tab, not just Users/Teachers</h2>
-          <p class="goal">Expose unlink actions across every Super Admin tab so Partner Success can fully retire accounts without Services.</p>
+          <h2 class="title">Super Admins cannot edit a student's grade, their teacher's grade, or content preferences</h2>
+          <p class="goal">Let support edit a student's grade, their teacher's grade, and content preferences across subjects from Super Admin.</p>
         </div>
-        <div class="status">Intake</div>
-        <div class="open" aria-hidden="true">→</div>
-      </a>
-
-      <a class="ticket" style="--i:5" data-status="Intake" href="https://linear.app/legends-of-learning/issue/LEG-5243" target="_blank" rel="noopener noreferrer">
-        <div class="id">LEG-5243</div>
-        <div class="body">
-          <h2 class="title">Let staff find and view soft-deleted (deactivated) accounts</h2>
-          <p class="goal">Make deactivated accounts searchable and viewable in Super Admin so staff no longer need Services for that lookup.</p>
-        </div>
-        <div class="status">Intake</div>
-        <div class="open" aria-hidden="true">→</div>
-      </a>
-
-      <a class="ticket" style="--i:6" data-status="Backlog" href="https://linear.app/legends-of-learning/issue/LEG-3316" target="_blank" rel="noopener noreferrer">
-        <div class="id">LEG-3316</div>
-        <div class="body">
-          <h2 class="title">Finish moving staff workflows off Services into Super Admin and Marketplace Admin</h2>
-          <p class="goal">Sprint 5 entry point for the remaining Services migration work into Super Admin and Marketplace Admin.</p>
-        </div>
-        <div class="status">Backlog</div>
+        <div class="status">Done</div>
         <div class="open" aria-hidden="true">→</div>
       </a>
     </section>
 
     <footer>
-      Built for sharing from Linear search of Super Admin work most relevant to Sprint 05.
+      Aligned to the Sprint 4 board Cmd+F for “super admin”: 3 Product Review, 1 In Review, 2 Done.
       Statuses are as recorded in Linear at generation time and may change.
     </footer>
   </div>
