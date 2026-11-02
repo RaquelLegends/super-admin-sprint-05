@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Super Admin · Sprint 05</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #14202b;
+      --ink-soft: #3a4a58;
+      --paper: #f3efe6;
+      --paper-2: #e8e1d3;
+      --line: rgba(20, 32, 43, 0.12);
+      --accent: #0f7a66;
+      --accent-deep: #0a5548;
+      --glow-band: rgba(15, 122, 102, 0.14);
+      --status-product: #0f7a66;
+      --status-review: #b35a00;
+      --status-progress: #1f5fbf;
+      --status-intake: #6b4f9a;
+      --status-backlog: #5a6670;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 8% -10%, var(--glow-band), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(179, 90, 0, 0.10), transparent 50%),
+        linear-gradient(165deg, #f7f3eb 0%, var(--paper) 42%, var(--paper-2) 100%);
+      background-attachment: fixed;
+    }
+
+    .page {
+      width: min(980px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2.75rem 0 4rem;
+    }
+
+    header {
+      position: relative;
+      padding-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+      animation: rise 0.7s ease both;
+    }
+
+    .brand {
+      font-family: Fraunces, Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin: 0 0 0.65rem;
+    }
+
+    .brand span {
+      color: var(--accent-deep);
+    }
+
+    .lede {
+      margin: 0;
+      max-width: 38rem;
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      margin-top: 1.15rem;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+
+    .meta strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0 0 1.25rem;
+      animation: rise 0.7s ease 0.08s both;
+    }
+
+    .filters button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.45);
+      color: var(--ink-soft);
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.45rem 0.8rem;
+      border-radius: 0.35rem;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .filters button:hover {
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--ink);
+    }
+
+    .filters button[aria-pressed="true"] {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #f7f3eb;
+    }
+
+    .board {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .ticket {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.85rem 1rem;
+      align-items: start;
+      text-decoration: none;
+      color: inherit;
+      padding: 1rem 1.1rem 1.05rem 0.95rem;
+      border-left: 4px solid var(--tone);
+      background: rgba(255, 255, 255, 0.55);
+      border-radius: 0 0.55rem 0.55rem 0;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(6px);
+      transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+      animation: rise 0.65s ease both;
+      animation-delay: calc(var(--i) * 55ms + 120ms);
+    }
+
+    .ticket:hover,
+    .ticket:focus-visible {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+        0 10px 28px rgba(20, 32, 43, 0.08);
+      outline: none;
+    }
+
+    .ticket[data-status="Product Review"] { --tone: var(--status-product); }
+    .ticket[data-status="In Review"] { --tone: var(--status-review); }
+    .ticket[data-status="In Progress"] { --tone: var(--status-progress); }
+    .ticket[data-status="Intake"] { --tone: var(--status-intake); }
+    .ticket[data-status="Backlog"] { --tone: var(--status-backlog); }
+
+    .id {
+      font-weight: 600;
+      font-size: 0.86rem;
+      letter-spacing: 0.02em;
+      color: var(--accent-deep);
+      padding-top: 0.15rem;
+      white-space: nowrap;
+    }
+
+    .body { min-width: 0; }
+
+    .title {
+      margin: 0 0 0.35rem;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.12rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+
+    .goal {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .status {
+      justify-self: end;
+      align-self: start;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--tone);
+      white-space: nowrap;
+      padding-top: 0.2rem;
+    }
+
+    .open {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+      align-self: center;
+      color: var(--ink-soft);
+      font-size: 1.25rem;
+      line-height: 1;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .ticket:hover .open,
+    .ticket:focus-visible .open {
+      color: var(--accent-deep);
+      transform: translateX(3px);
+    }
+
+    .ticket.is-hidden { display: none; }
+
+    footer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      animation: rise 0.7s ease 0.45s both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 700px) {
+      .ticket {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "id status"
+          "body body"
+          "open open";
+      }
+      .id { grid-area: id; }
+      .status { grid-area: status; }
+      .body { grid-area: body; }
+      .open {
+        grid-area: open;
+        grid-column: auto;
+        grid-row: auto;
+        justify-self: start;
+        margin-top: 0.25rem;
+        font-size: 0.9rem;
+      }
+      .open::before { content: "Open in Linear → "; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1 class="brand">Super Admin <span>· Sprint 05</span></h1>
+      <p class="lede">
+        A quick-read board of the Super Admin tickets that look most relevant to the current sprint — status, goal, and a direct link into Linear.
+      </p>
+      <div class="meta">
+        <div><strong>7</strong> tickets</div>
+        <div>Updated <strong>Nov 2, 2026</strong></div>
+        <div>Click any row to open the issue</div>
+      </div>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filter by status">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="Product Review" aria-pressed="false">Product Review</button>
+      <button type="button" data-filter="In Review" aria-pressed="false">In Review</button>
+      <button type="button" data-filter="In Progress" aria-pressed="false">In Progress</button>
+      <button type="button" data-filter="Intake" aria-pressed="false">Intake</button>
+      <button type="button" data-filter="Backlog" aria-pressed="false">Backlog</button>
+    </div>
+
+    <section class="board" aria-label="Sprint-relevant Super Admin tickets">
+      <a class="ticket" style="--i:0" data-status="Product Review" href="https://linear.app/legends-of-learning/issue/LEG-5300" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5300</div>
+        <div class="body">
+          <h2 class="title">Restore the inventory API used by Super Admin currency tools</h2>
+          <p class="goal">Restore currency tools so staff can view player inventory and make audited Coins, Brain Power, Gems, and Premium adjustments.</p>
+        </div>
+        <div class="status">Product Review</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:1" data-status="Product Review" href="https://linear.app/legends-of-learning/issue/LEG-5288" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5288</div>
+        <div class="body">
+          <h2 class="title">Restore Super Admin report selectors exceeding ClickHouse reader row cap</h2>
+          <p class="goal">Fix Usage report selectors so district and school choices and metrics load again past the ClickHouse row cap.</p>
+        </div>
+        <div class="status">Product Review</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:2" data-status="In Review" href="https://linear.app/legends-of-learning/issue/LEG-5296" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5296</div>
+        <div class="body">
+          <h2 class="title">Set student lists to the basic player in Super Admin</h2>
+          <p class="goal">Let support upload a student CSV and move those students to the basic player without editing ConfigCat.</p>
+        </div>
+        <div class="status">In Review</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:3" data-status="In Progress" href="https://linear.app/legends-of-learning/issue/LEG-5141" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5141</div>
+        <div class="body">
+          <h2 class="title">Create RFP demo districts and sample data from Super Admin</h2>
+          <p class="goal">Make RFP demo setup reusable: create isolated demo districts, return a credentials PDF, then seed sample data asynchronously.</p>
+        </div>
+        <div class="status">In Progress</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:4" data-status="Intake" href="https://linear.app/legends-of-learning/issue/LEG-5242" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5242</div>
+        <div class="body">
+          <h2 class="title">Let staff unlink a user from every tab, not just Users/Teachers</h2>
+          <p class="goal">Expose unlink actions across every Super Admin tab so Partner Success can fully retire accounts without Services.</p>
+        </div>
+        <div class="status">Intake</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:5" data-status="Intake" href="https://linear.app/legends-of-learning/issue/LEG-5243" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5243</div>
+        <div class="body">
+          <h2 class="title">Let staff find and view soft-deleted (deactivated) accounts</h2>
+          <p class="goal">Make deactivated accounts searchable and viewable in Super Admin so staff no longer need Services for that lookup.</p>
+        </div>
+        <div class="status">Intake</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:6" data-status="Backlog" href="https://linear.app/legends-of-learning/issue/LEG-3316" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-3316</div>
+        <div class="body">
+          <h2 class="title">Finish moving staff workflows off Services into Super Admin and Marketplace Admin</h2>
+          <p class="goal">Sprint 5 entry point for the remaining Services migration work into Super Admin and Marketplace Admin.</p>
+        </div>
+        <div class="status">Backlog</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+    </section>
+
+    <footer>
+      Built for sharing from Linear search of Super Admin work most relevant to Sprint 05.
+      Statuses are as recorded in Linear at generation time and may change.
+    </footer>
+  </div>
+
+  <script>
+    const buttons = [...document.querySelectorAll(".filters button")];
+    const tickets = [...document.querySelectorAll(".ticket")];
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+        tickets.forEach((ticket) => {
+          const show = filter === "all" || ticket.dataset.status === filter;
+          ticket.classList.toggle("is-hidden", !show);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
