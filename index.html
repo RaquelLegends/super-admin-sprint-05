@@ -81,12 +81,76 @@
       font-weight: 600;
     }
 
+    .controls {
+      display: grid;
+      gap: 0.85rem;
+      margin: 0 0 1.25rem;
+      animation: rise 0.7s ease 0.08s both;
+    }
+
+    .search {
+      position: relative;
+    }
+
+    .search input {
+      width: 100%;
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.98rem;
+      padding: 0.75rem 1rem 0.75rem 2.55rem;
+      border-radius: 0.45rem;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search input::placeholder {
+      color: #7a8792;
+    }
+
+    .search input:focus {
+      border-color: rgba(15, 122, 102, 0.45);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 0 3px rgba(15, 122, 102, 0.12);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+
+    .empty {
+      display: none;
+      margin: 0.5rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+    }
+
+    .empty.is-visible { display: block; }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     .filters {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin: 0 0 1.25rem;
-      animation: rise 0.7s ease 0.08s both;
     }
 
     .filters button {
@@ -266,13 +330,27 @@
       </div>
     </header>
 
-    <div class="filters" role="group" aria-label="Filter by status">
-      <button type="button" data-filter="all" aria-pressed="true">All</button>
-      <button type="button" data-filter="In Progress" aria-pressed="false">In Progress</button>
-      <button type="button" data-filter="In Review" aria-pressed="false">In Review</button>
-      <button type="button" data-filter="Product Review" aria-pressed="false">Product Review</button>
-      <button type="button" data-filter="Intake" aria-pressed="false">Intake</button>
-      <button type="button" data-filter="Done" aria-pressed="false">Done</button>
+    <div class="controls">
+      <div class="search">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <label for="ticket-search" class="visually-hidden">Search tickets</label>
+        <input
+          id="ticket-search"
+          type="search"
+          placeholder="Search by ticket ID, title, or goal…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+      <div class="filters" role="group" aria-label="Filter by status">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="In Progress" aria-pressed="false">In Progress</button>
+        <button type="button" data-filter="In Review" aria-pressed="false">In Review</button>
+        <button type="button" data-filter="Product Review" aria-pressed="false">Product Review</button>
+        <button type="button" data-filter="Intake" aria-pressed="false">Intake</button>
+        <button type="button" data-filter="Done" aria-pressed="false">Done</button>
+      </div>
+      <p class="empty" id="search-empty" aria-live="polite">No tickets match that search.</p>
     </div>
 
     <h2 class="section-label" data-section="active">Being worked on</h2>
@@ -452,22 +530,41 @@
     const buttons = [...document.querySelectorAll(".filters button")];
     const tickets = [...document.querySelectorAll(".ticket")];
     const sections = [...document.querySelectorAll(".section-label")];
+    const searchInput = document.getElementById("ticket-search");
+    const emptyState = document.getElementById("search-empty");
+    let activeFilter = "all";
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      tickets.forEach((ticket) => {
+        const statusMatch = activeFilter === "all" || ticket.dataset.status === activeFilter;
+        const haystack = ticket.textContent.toLowerCase();
+        const searchMatch = !query || haystack.includes(query);
+        const show = statusMatch && searchMatch;
+        ticket.classList.toggle("is-hidden", !show);
+        if (show) visibleCount += 1;
+      });
+
+      sections.forEach((section) => {
+        const board = section.nextElementSibling;
+        const visible = [...board.querySelectorAll(".ticket")].some((t) => !t.classList.contains("is-hidden"));
+        section.classList.toggle("is-hidden", !visible);
+      });
+
+      emptyState.classList.toggle("is-visible", visibleCount === 0);
+    }
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
-        const filter = button.dataset.filter;
+        activeFilter = button.dataset.filter;
         buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
-        tickets.forEach((ticket) => {
-          const show = filter === "all" || ticket.dataset.status === filter;
-          ticket.classList.toggle("is-hidden", !show);
-        });
-        sections.forEach((section) => {
-          const board = section.nextElementSibling;
-          const visible = [...board.querySelectorAll(".ticket")].some((t) => !t.classList.contains("is-hidden"));
-          section.classList.toggle("is-hidden", !visible);
-        });
+        applyFilters();
       });
     });
+
+    searchInput.addEventListener("input", applyFilters);
   </script>
 </body>
 </html>
