@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Super Admin · Sprint 4</title>
+  <title>Super Admin Updates</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -20,6 +20,7 @@
       --status-product: #0f7a66;
       --status-review: #b35a00;
       --status-progress: #1f5fbf;
+      --status-intake: #6b4f9a;
       --status-done: #2f6b3a;
     }
 
@@ -58,11 +59,9 @@
       margin: 0 0 0.65rem;
     }
 
-    .brand span { color: var(--accent-deep); }
-
     .lede {
       margin: 0;
-      max-width: 40rem;
+      max-width: 42rem;
       color: var(--ink-soft);
       font-size: 1.05rem;
       line-height: 1.5;
@@ -115,6 +114,18 @@
       color: #f7f3eb;
     }
 
+    .section-label {
+      margin: 1.75rem 0 0.75rem;
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      animation: rise 0.65s ease both;
+    }
+
+    .section-label:first-of-type { margin-top: 0.25rem; }
+
     .board {
       display: grid;
       gap: 0.75rem;
@@ -135,7 +146,7 @@
       backdrop-filter: blur(6px);
       transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
       animation: rise 0.65s ease both;
-      animation-delay: calc(var(--i) * 55ms + 120ms);
+      animation-delay: calc(var(--i) * 45ms + 100ms);
     }
 
     .ticket:hover,
@@ -151,6 +162,7 @@
     .ticket[data-status="Product Review"] { --tone: var(--status-product); }
     .ticket[data-status="In Review"] { --tone: var(--status-review); }
     .ticket[data-status="In Progress"] { --tone: var(--status-progress); }
+    .ticket[data-status="Intake"] { --tone: var(--status-intake); }
     .ticket[data-status="Done"] { --tone: var(--status-done); }
 
     .id {
@@ -207,7 +219,8 @@
       transform: translateX(3px);
     }
 
-    .ticket.is-hidden { display: none; }
+    .ticket.is-hidden,
+    .section-label.is-hidden { display: none; }
 
     footer {
       margin-top: 2rem;
@@ -242,13 +255,13 @@
 <body>
   <div class="page">
     <header>
-      <h1 class="brand">Super Admin <span>· Sprint 4</span></h1>
+      <h1 class="brand">Super Admin Updates</h1>
       <p class="lede">
-        Current Super Admin work on Sprint 4 — what’s in flight, what’s in review, and what’s already Done. Titles here are written in plain language so anyone can skim them; click a row to open Linear, where you’ll see the official ticket title.
+        Super Admin and Admin work currently in motion across the board — not limited to one sprint. Titles here are written in plain language so they’re easier to skim; click a row to open Linear, where you’ll see the official ticket title.
       </p>
       <div class="meta">
-        <div><strong>10</strong> tickets</div>
-        <div>1 In Progress · 9 Done</div>
+        <div><strong>16</strong> tickets</div>
+        <div>4 In Progress · 1 In Review · 1 Product Review · 2 Intake · 8 Done</div>
         <div>Updated <strong>Nov 9, 2026</strong></div>
       </div>
     </header>
@@ -256,10 +269,14 @@
     <div class="filters" role="group" aria-label="Filter by status">
       <button type="button" data-filter="all" aria-pressed="true">All</button>
       <button type="button" data-filter="In Progress" aria-pressed="false">In Progress</button>
+      <button type="button" data-filter="In Review" aria-pressed="false">In Review</button>
+      <button type="button" data-filter="Product Review" aria-pressed="false">Product Review</button>
+      <button type="button" data-filter="Intake" aria-pressed="false">Intake</button>
       <button type="button" data-filter="Done" aria-pressed="false">Done</button>
     </div>
 
-    <section class="board" aria-label="Current Sprint 4 Super Admin tickets">
+    <h2 class="section-label" data-section="active">Being worked on</h2>
+    <section class="board" aria-label="Active Super Admin and Admin tickets">
       <a class="ticket" style="--i:0" data-status="In Progress" href="https://linear.app/legends-of-learning/issue/LEG-5141" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5141</div>
         <div class="body">
@@ -270,7 +287,80 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:1" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5333" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:1" data-status="In Progress" href="https://linear.app/legends-of-learning/issue/LEG-5066" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5066</div>
+        <div class="body">
+          <h2 class="title">Give Partner Success a Current vs Preview roster comparison</h2>
+          <p class="goal">A read-only preview that shows who changed, which totals changed, and why — starting with BOCES Usage and former-teacher scenarios.</p>
+        </div>
+        <div class="status">In Progress</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:2" data-status="In Progress" href="https://linear.app/legends-of-learning/issue/LEG-4982" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-4982</div>
+        <div class="body">
+          <h2 class="title">Simplify Usage and Math Basecamp so there’s one clear report entry</h2>
+          <p class="goal">Super Admin opens account selection for Usage and Math Basecamp in one place, with BOCES Account Admin keeping its licensed-school scope.</p>
+        </div>
+        <div class="status">In Progress</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:3" data-status="In Progress" href="https://linear.app/legends-of-learning/issue/LEG-5058" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5058</div>
+        <div class="body">
+          <h2 class="title">Generate accessible game versions in Marketplace Admin</h2>
+          <p class="goal">Create an accessible twin from an approved original game, play it, review checks, save feedback, and regenerate while keeping earlier attempts.</p>
+        </div>
+        <div class="status">In Progress</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:4" data-status="In Review" href="https://linear.app/legends-of-learning/issue/LEG-5145" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5145</div>
+        <div class="body">
+          <h2 class="title">Fix School Admin Usage and Math Basecamp “licenses could not be loaded”</h2>
+          <p class="goal">School admins should open Usage and Math Basecamp reports for their account instead of hitting a licenses/report-unavailable error.</p>
+        </div>
+        <div class="status">In Review</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:5" data-status="Product Review" href="https://linear.app/legends-of-learning/issue/LEG-5352" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5352</div>
+        <div class="body">
+          <h2 class="title">Confirm OCM BOCES historical Usage totals and clearer date filters</h2>
+          <p class="goal">Make sure last year’s BOCES Usage numbers match for the shared date range, and that custom date controls stay clear for year-over-year checks.</p>
+        </div>
+        <div class="status">Product Review</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:6" data-status="Intake" href="https://linear.app/legends-of-learning/issue/LEG-5242" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5242</div>
+        <div class="body">
+          <h2 class="title">Unlink a user from every Super Admin tab, not only Users/Teachers</h2>
+          <p class="goal">Partner Success can fully retire accounts from whichever tab they’re on, without bouncing through Services.</p>
+        </div>
+        <div class="status">Intake</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+
+      <a class="ticket" style="--i:7" data-status="Intake" href="https://linear.app/legends-of-learning/issue/LEG-5243" target="_blank" rel="noopener noreferrer">
+        <div class="id">LEG-5243</div>
+        <div class="body">
+          <h2 class="title">Find and view soft-deleted (deactivated) accounts in Super Admin</h2>
+          <p class="goal">Staff can locate deactivated accounts in Super Admin the way Services used to allow, instead of losing them after deactivation.</p>
+        </div>
+        <div class="status">Intake</div>
+        <div class="open" aria-hidden="true">→</div>
+      </a>
+    </section>
+
+    <h2 class="section-label" data-section="done">Recently finished</h2>
+    <section class="board" aria-label="Recently finished Super Admin and Admin tickets">
+      <a class="ticket" style="--i:8" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5333" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5333</div>
         <div class="body">
           <h2 class="title">Keep students in assignments and make Super Admin respond reliably again</h2>
@@ -280,7 +370,7 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:2" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5296" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:9" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5296" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5296</div>
         <div class="body">
           <h2 class="title">Move a whole list of students to the basic player from a spreadsheet</h2>
@@ -290,7 +380,7 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:3" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5290" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:10" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5290" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5290</div>
         <div class="body">
           <h2 class="title">Fix the Usage report when the district menu won’t load</h2>
@@ -300,7 +390,7 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:4" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5300" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:11" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5300" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5300</div>
         <div class="body">
           <h2 class="title">Fix the tools that let staff adjust a student’s Coins, Gems, Brain Power, and Premium</h2>
@@ -310,7 +400,7 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:5" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5299" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:12" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5299" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5299</div>
         <div class="body">
           <h2 class="title">Open student, teacher, and school records as full pages</h2>
@@ -320,7 +410,7 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:6" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5288" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:13" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5288" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5288</div>
         <div class="body">
           <h2 class="title">Fix Usage reports when district or school menus won’t load</h2>
@@ -330,7 +420,7 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:7" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5054" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:14" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5054" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5054</div>
         <div class="body">
           <h2 class="title">Manage Awakening assignment exclusions in Super Admin instead of ConfigCat</h2>
@@ -340,7 +430,7 @@
         <div class="open" aria-hidden="true">→</div>
       </a>
 
-      <a class="ticket" style="--i:8" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5052" target="_blank" rel="noopener noreferrer">
+      <a class="ticket" style="--i:15" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-5052" target="_blank" rel="noopener noreferrer">
         <div class="id">LEG-5052</div>
         <div class="body">
           <h2 class="title">Choose Awakening or the basic player for an account, school, or student</h2>
@@ -349,20 +439,10 @@
         <div class="status">Done</div>
         <div class="open" aria-hidden="true">→</div>
       </a>
-
-      <a class="ticket" style="--i:9" data-status="Done" href="https://linear.app/legends-of-learning/issue/LEG-2714" target="_blank" rel="noopener noreferrer">
-        <div class="id">LEG-2714</div>
-        <div class="body">
-          <h2 class="title">Edit a student’s grade, teacher grade, and content preferences</h2>
-          <p class="goal">Support can correct grade level and subject content preferences in Super Admin during common account-fix requests.</p>
-        </div>
-        <div class="status">Done</div>
-        <div class="open" aria-hidden="true">→</div>
-      </a>
     </section>
 
     <footer>
-      Current Sprint 4 Super Admin board: 1 In Progress, 9 Done.
+      Covers Super Admin and Admin work in progress across the board, plus recent finishes.
       Display titles are plain-language summaries; Linear keeps the official ticket titles.
       Statuses are as recorded in Linear at generation time and may change.
     </footer>
@@ -371,6 +451,7 @@
   <script>
     const buttons = [...document.querySelectorAll(".filters button")];
     const tickets = [...document.querySelectorAll(".ticket")];
+    const sections = [...document.querySelectorAll(".section-label")];
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -379,6 +460,11 @@
         tickets.forEach((ticket) => {
           const show = filter === "all" || ticket.dataset.status === filter;
           ticket.classList.toggle("is-hidden", !show);
+        });
+        sections.forEach((section) => {
+          const board = section.nextElementSibling;
+          const visible = [...board.querySelectorAll(".ticket")].some((t) => !t.classList.contains("is-hidden"));
+          section.classList.toggle("is-hidden", !visible);
         });
       });
     });
