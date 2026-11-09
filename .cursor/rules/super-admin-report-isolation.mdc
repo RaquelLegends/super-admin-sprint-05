@@ -1,0 +1,12 @@
+---
+description: Keep Super Admin Report work isolated inside this folder
+alwaysApply: true
+---
+
+# Super Admin Report isolation
+
+- Work only under `super-admin-report/` (this project). Do not modify Workspace 1 root or other task folders.
+- Read `handoff.md` and `AGENTS.md` at session start; update `handoff.md` only for material state changes (not every ping or micro-step).
+- Publishable artifact: `index.html` in this git repo (`RaquelLegends/super-admin-sprint-05`).
+- Use CMUX for browser verification (Pages URL or local static server from this folder). Layout: one terminal left, one browser right (skill `cmux-layout`) — never split the browser pane.
+- `agents/registry.md` is ownership / hooks / lasting subagents only — not a chat log.
